@@ -1,8 +1,38 @@
 <?php
-declare(strict_types=1)
+declare(strict_types=1);
 ini_set('display_errors', "1");
-ini_set('display_startup_errors', 1);
+ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
+
+
+if (empty($_GET["subject"])) {
+    $pokeAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon/1");
+} else {
+
+    $pokeAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon/" . ($_GET["subject"]));
+
+}
+
+$pokeData = json_decode($pokeAPI, true);
+
+//displaying sprite
+$sprites = $pokeData["sprites"]["front_default"];
+
+$evolutionAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon-species/" . ($_GET["subject"]));
+
+$pokeEvoChain = json_decode($evolutionAPI, true);
+
+
+
+$pokeID = $pokeData["id"];
+$pokeName = $pokeData["name"];
+//$pokeEvol = $pokeData[]
+//foreach ( $pokeData AS $pokeList) {
+//    echo $pokeList . "<br>";
+//
+//}
+
+if ($pokeData)
 ?>
 
 <!doctype html>
@@ -47,7 +77,7 @@ error_reporting(E_ALL);
                 <div id="buttontopPicture2"></div>
             </div>
             <div id="picture">
-                <img src="" alt="psykokwak" height="170" />
+                <img src="<?php echo ($sprites)?>" alt="" height="170" />
             </div>
             <div id="buttonbottomPicture"></div>
             <div id="speakers">
@@ -60,6 +90,9 @@ error_reporting(E_ALL);
         <div id="bigbluebutton"></div>
         <div id="barbutton1"></div>
         <div id="barbutton2"></div>
+        <form name="form" action="" method="get">
+            <input type="text" name="subject" id="inputfield">
+        </form>
         <div id="cross">
             <div id="leftcross">
                 <div id="leftT"></div>
@@ -80,9 +113,10 @@ error_reporting(E_ALL);
     </div>
     <div id="right">
         <div id="stats">
-
+            <p><?php echo $pokeName ?></p>
+            <p><?php echo $pokeID ?></p>
         </div>
-        <div id="blueButtons1">
+,        <div id="blueButtons1">
             <div class="blueButton"></div>
             <div class="blueButton"></div>
             <div class="blueButton"></div>
@@ -100,7 +134,7 @@ error_reporting(E_ALL);
         <div id="miniButtonGlass5"></div>
         <div id="barbutton3"></div>
         <div id="barbutton4"></div>
-        <div id="yellowBox1"></div>
+        <div id="yellowBox1"><img src="<?php echo ($evolutionAPI)["name"]?>"/> </div>
         <div id="yellowBox2"></div>
         <div id="bg_curve1_right"></div>
         <div id="bg_curve2_right"></div>
