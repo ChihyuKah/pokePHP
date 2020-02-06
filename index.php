@@ -18,14 +18,31 @@ $pokeData = json_decode($pokeAPI, true);
 //displaying sprite
 $sprites = $pokeData["sprites"]["front_default"];
 
+//going into species
 $evolutionAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon-species/" . ($_GET["subject"]));
 
 $pokeEvoChain = json_decode($evolutionAPI, true);
 
+//getting chain url
+$pokeSpecies = $pokeEvoChain["evolution_chain"]["url"];
+
+
+$pokeChain = file_get_contents("$pokeSpecies");
+
+$pokeEvoDecode = json_decode($pokeChain, true);
+
+//base form
+$pokeEvolutionsBase = $pokeEvoDecode["chain"]["species"]["name"];
+//2nd form
+$pokeEvolutionsSecond = $pokeEvoDecode["chain"]["evolves_to"]["0"]["species"]["name"];
+//3rd form
+$pokeEvolutionsThird = $pokeEvoDecode["chain"]["evolves_to"]["0"]["evolves_to"][0]["species"]["name"];
 
 
 $pokeID = $pokeData["id"];
 $pokeName = $pokeData["name"];
+
+
 //$pokeEvol = $pokeData[]
 //foreach ( $pokeData AS $pokeList) {
 //    echo $pokeList . "<br>";
