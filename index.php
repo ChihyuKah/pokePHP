@@ -7,9 +7,12 @@ error_reporting(E_ALL);
 
 if (empty($_GET["subject"])) {
     $pokeAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon/1");
+    $evolutionAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon-species/1");
 } else {
 
     $pokeAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon/" . ($_GET["subject"]));
+    //going into species
+    $evolutionAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon-species/" . ($_GET["subject"]));
 
 }
 
@@ -18,19 +21,19 @@ $pokeData = json_decode($pokeAPI, true);
 //displaying sprite
 $sprites = $pokeData["sprites"]["front_default"];
 
-//going into species
-$evolutionAPI = file_get_contents("https://pokeapi.co/api/v2/pokemon-species/" . ($_GET["subject"]));
 
 $pokeEvoChain = json_decode($evolutionAPI, true);
 
-//getting chain url
+
+//
+////getting chain url
 $pokeSpecies = $pokeEvoChain["evolution_chain"]["url"];
-
-
+//
+//
 $pokeChain = file_get_contents("$pokeSpecies");
 
 $pokeEvoDecode = json_decode($pokeChain, true);
-
+//
 //base form
 $pokeEvolutionsBase = $pokeEvoDecode["chain"]["species"]["name"];
 //2nd form
@@ -41,6 +44,10 @@ $pokeEvolutionsThird = $pokeEvoDecode["chain"]["evolves_to"]["0"]["evolves_to"][
 
 $pokeID = $pokeData["id"];
 $pokeName = $pokeData["name"];
+
+$pokeNameEvolSecond = $pokeData.$pokeEvolutionsSecond;
+
+
 
 
 //$pokeEvol = $pokeData[]
@@ -151,7 +158,7 @@ if ($pokeData)
         <div id="miniButtonGlass5"></div>
         <div id="barbutton3"></div>
         <div id="barbutton4"></div>
-        <div id="yellowBox1"><img src="<?php echo ($evolutionAPI)["name"]?>"/> </div>
+        <div id="yellowBox1"><img src="<?php// echo ($evolutionAPI)["name"]?>"/> </div>
         <div id="yellowBox2"></div>
         <div id="bg_curve1_right"></div>
         <div id="bg_curve2_right"></div>
